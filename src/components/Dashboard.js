@@ -13,8 +13,8 @@ export function renderDashboard(container, onLogout, onEditOverlay) {
           <div class="dashboard-header">
             <h1>My Overlays</h1>
             <div>
-              <button id="createOverlayBtn">Create New Overlay</button>
-              <button id="logoutBtn">Logout</button>
+              <button id="createOverlayBtn" class="btn-primary btn-lg">Create New Overlay</button>
+              <button id="logoutBtn" class="btn-outline btn-lg">Sign Out</button>
             </div>
           </div>
           
@@ -32,7 +32,7 @@ export function renderDashboard(container, onLogout, onEditOverlay) {
                   </div>
                 </div>
               `).join('')
-              : '<p>No overlays yet. Create your first one!</p>'
+              : '<div class="empty-state"><h3>No overlays yet</h3><p>Create your first overlay to get started</p><button id="emptyStateCreateBtn" class="btn-primary btn-lg">Create New Overlay</button></div>'
             }
           </div>
         </div>
@@ -42,6 +42,14 @@ export function renderDashboard(container, onLogout, onEditOverlay) {
       document.getElementById('createOverlayBtn').addEventListener('click', () => {
         onEditOverlay();
       });
+      
+      // Add empty state create button listener if it exists
+      const emptyStateBtn = document.getElementById('emptyStateCreateBtn');
+      if (emptyStateBtn) {
+        emptyStateBtn.addEventListener('click', () => {
+          onEditOverlay();
+        });
+      }
       
       document.getElementById('logoutBtn').addEventListener('click', async () => {
         await logoutUser();
@@ -132,24 +140,33 @@ export function renderDashboard(container, onLogout, onEditOverlay) {
       previewModal.className = 'overlay-preview';
       previewModal.innerHTML = `
         <div class="preview-container">
-          <button class="preview-close">&times;</button>
-          <div class="overlay-content">
-            <h1>${overlay.title || 'Untitled Overlay'}</h1>
-            ${overlay.sections.map(section => `
-              <div class="overlay-section">
-                ${section.title ? `<h2>${section.title}</h2>` : ''}
-                ${section.type === 'video' ? `
-                  <video class="overlay-video" controls>
-                    <source src="${section.content}" type="video/mp4">
-                    Your browser does not support the video tag.
-                  </video>
-                ` : section.type === 'image' ? `
-                  <img class="overlay-image" src="${section.content}" alt="${section.title || 'Image'}" />
-                ` : `
-                  <div class="overlay-text">${section.content}</div>
-                `}
+          <div class="preview-header">
+            <h2>Preview: ${overlay.title || 'Untitled Overlay'}</h2>
+            <button class="preview-close">&times;</button>
+          </div>
+          <div class="preview-content">
+            <iframe src="${overlay.targetUrl}" class="preview-iframe"></iframe>
+            <div class="web-overlay">
+              <div class="overlay-content">
+                <button class="overlay-close">&times;</button>
+                <h1>${overlay.title || 'Untitled Overlay'}</h1>
+                ${overlay.sections.map(section => `
+                  <div class="overlay-section">
+                    ${section.title ? `<h2>${section.title}</h2>` : ''}
+                    ${section.type === 'video' ? `
+                      <video class="overlay-video" controls>
+                        <source src="${section.content}" type="video/mp4">
+                        Your browser does not support the video tag.
+                      </video>
+                    ` : section.type === 'image' ? `
+                      <img class="overlay-image" src="${section.content}" alt="${section.title || 'Image'}" />
+                    ` : `
+                      <div class="overlay-text">${section.content}</div>
+                    `}
+                  </div>
+                `).join('')}
               </div>
-            `).join('')}
+            </div>
           </div>
         </div>
       `;
@@ -158,6 +175,10 @@ export function renderDashboard(container, onLogout, onEditOverlay) {
       
       previewModal.querySelector('.preview-close').addEventListener('click', () => {
         document.body.removeChild(previewModal);
+      });
+      
+      previewModal.querySelector('.overlay-close').addEventListener('click', () => {
+        previewModal.querySelector('.web-overlay').style.display = 'none';
       });
     } catch (error) {
       alert(`Error loading preview: ${error.message}`);

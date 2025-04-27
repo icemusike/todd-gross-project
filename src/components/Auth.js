@@ -4,22 +4,28 @@ export function renderAuth(container, onAuthenticated) {
   const render = () => {
     container.innerHTML = `
       <div class="auth-container">
-        <h2>${isLogin ? 'Login' : 'Register'}</h2>
+        <h2>${isLogin ? 'Welcome Back' : 'Create Account'}</h2>
         <form class="auth-form" id="authForm">
-          <input type="email" id="email" placeholder="Email" required />
-          <input type="password" id="password" placeholder="Password" required />
-          <button type="submit">${isLogin ? 'Login' : 'Register'}</button>
+          <div class="form-group">
+            <input type="email" id="email" placeholder="Email address" required />
+          </div>
+          <div class="form-group">
+            <input type="password" id="password" placeholder="Password" required />
+          </div>
+          <button type="submit" class="btn-primary btn-lg">${isLogin ? 'Sign In' : 'Sign Up'}</button>
         </form>
         <div class="auth-toggle">
           <button id="toggleAuth">
-            ${isLogin ? 'Need an account? Register' : 'Already have an account? Login'}
+            ${isLogin ? 'Need an account? Create one' : 'Already have an account? Sign in'}
           </button>
         </div>
-        <div class="demo-account">
-          <button id="demoAccountBtn">Try Demo Account</button>
-        </div>
-        <div class="direct-access">
-          <button id="directAccessBtn">Direct Access (No Login)</button>
+        <div class="auth-options">
+          <div class="demo-account">
+            <button id="demoAccountBtn" class="btn-secondary btn-lg">Try Demo Account</button>
+          </div>
+          <div class="direct-access">
+            <button id="directAccessBtn" class="btn-lg">Direct Access (No Login)</button>
+          </div>
         </div>
       </div>
     `;
