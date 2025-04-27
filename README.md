@@ -8,7 +8,8 @@ A responsive web overlay system that allows users to create and share overlays f
 - Share overlays via URL without modifying the target website
 - Responsive design that works on all screen sizes
 - Local storage for saving and managing overlays
-- Direct access for testing without login
+- Professional-grade UI with refined design elements
+- Cross-origin website loading with proxy support
 
 ## How It Works
 
@@ -54,6 +55,11 @@ When someone visits this URL, they will see the target website with your overlay
 - No server-side dependencies or configuration needed
 - Sample data is automatically created on first run
 - All overlays are stored in the browser's local storage
+- Uses a CORS proxy to load external websites in the iframe
+
+## Cross-Origin Website Loading
+
+The system uses a public CORS proxy service (AllOrigins) to bypass cross-origin restrictions when loading external websites in the iframe. This allows the overlay to be displayed on top of any website without requiring modifications to the target site.
 
 ## License
 

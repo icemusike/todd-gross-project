@@ -259,7 +259,12 @@
             
             // Set up iframe for target site
             const targetSite = document.getElementById('target-site');
-            targetSite.innerHTML = `<iframe src="${overlay.targetUrl}" id="target-iframe" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe>`;
+            
+            // Create a proxy URL to bypass CORS restrictions
+            // This uses a public CORS proxy service
+            const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(overlay.targetUrl)}`;
+            
+            targetSite.innerHTML = `<iframe src="${proxyUrl}" id="target-iframe" allow="fullscreen"></iframe>`;
             
             // Create overlay
             const overlayContainer = document.getElementById('overlay-container');

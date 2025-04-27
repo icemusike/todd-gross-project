@@ -145,7 +145,19 @@ export function renderDashboard(container, onLogout, onEditOverlay) {
             <button class="preview-close">&times;</button>
           </div>
           <div class="preview-content">
-            <iframe src="${overlay.targetUrl}" class="preview-iframe"></iframe>
+            <div class="preview-placeholder">
+              <div class="preview-url-bar">
+                <div class="preview-url-icon">🔒</div>
+                <div class="preview-url-text">${overlay.targetUrl}</div>
+              </div>
+              <div class="preview-browser-content">
+                <div class="preview-message">
+                  <p>Due to browser security restrictions, we can't load the actual website in the preview.</p>
+                  <p>This is how your overlay will appear on <strong>${overlay.targetUrl}</strong></p>
+                  <p>To see it in action, use the Share button and open the generated URL.</p>
+                </div>
+              </div>
+            </div>
             <div class="web-overlay">
               <div class="overlay-content">
                 <button class="overlay-close">&times;</button>
